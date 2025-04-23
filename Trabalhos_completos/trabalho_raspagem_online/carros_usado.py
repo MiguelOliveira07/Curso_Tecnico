@@ -1,3 +1,4 @@
+
 from bs4 import BeautifulSoup
 from requests import get
 
@@ -26,4 +27,4 @@ for preço in preços:
     lista_precos.append(preço.text)
 
 for i, nome in enumerate(lista_nomes):
-    print(f'{nome} --->  \033[42m{lista_precos[i]}\033[0m')
+    print(f'{nome} --->  \033[42m{lista_precos[i]}\033[0m') 
