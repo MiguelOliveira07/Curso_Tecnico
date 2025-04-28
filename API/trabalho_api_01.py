@@ -1,43 +1,43 @@
 import requests
 from datetime import datetime
+import streamlit as st
 
-print('==='*20)
-print('Descrubra o clima de sua cidade')
-print('==='*20)
+st.title('Descubra o clima de sua cidade')
+st.markdown('---')
 
 # Pega o nome da cidade
-cidade = input(str('Digite sua cidade : ')) 
+cidade = st.text_input('Digite sua cidade:')
 
-# Usa o nome da cidade como parametro para o link de pesquisa da ID
-url_cidade = f'https://brasilapi.com.br/api/cptec/v1/cidade/{cidade}' 
- # Faz a requisição HTTP do nosos link
-resposta = requests.get(url_cidade)
+if cidade:  # Só executa se o usuário digitou algo
+    try:
+        # Obtém o código da cidade
+        url_cidade = f'https://brasilapi.com.br/api/cptec/v1/cidade/{cidade}' 
+        resposta = requests.get(url_cidade)
+        city_code = resposta.json()
+        id = city_code[0]['id']
 
-# Pega o resultado Json da página desse link (dicionário)
-city_code = resposta.json()
+        # Obtém a previsão do tempo
+        url_clima = f'https://brasilapi.com.br/api/cptec/v1/clima/previsao/{id}'
+        resposta_id = requests.get(url_clima)     
+        city_weather = resposta_id.json()
+        clima_cidade = city_weather['clima']
 
-# # A partir do dicionário pega a inforamção que precisamos para pegar o tempo da cidade [ seu ID ]
-id = city_code[0]['id'] 
+        # Processa os dados
+        descricao = clima_cidade[0]['condicao_desc']
+        data = datetime.strptime(clima_cidade[0]['data'], "%Y-%m-%d")
+        data_ = data.strftime("%d/%m/%Y")
+        min_temp = clima_cidade[0]['min']
+        max_temp = clima_cidade[0]['max']
 
-# # O ID está sendo usado para pegar o clima da cidade, essa cidade corresponde ao ID
-url_clima = f'https://brasilapi.com.br/api/cptec/v1/clima/previsao/{id}' 
+        # Exibe os resultados
+        st.markdown('---')
+        st.subheader(f'Previsão do tempo para {cidade}')
+        st.write(f'**Data:** {data_}')
+        st.write(f'**Condição:** {descricao}')
+        st.write(f'**Temperatura mínima:** {min_temp}°C')
+        st.write(f'**Temperatura máxima:** {max_temp}°C')
+        st.markdown('---')
 
-# # Mesmo processo de pegar as informações
-resposta_id = requests.get(url_clima)     
-city_weather = resposta_id.json()
-clima_cidade = city_weather['clima']
-
-# # Separa as informações que realmente queremos e as torna variaveis
-descricao = clima_cidade[0]['condicao_desc']
-data = datetime.strptime(clima_cidade[0]['data'],"%Y-%m-%d")
-data_ = data.strftime("%d/%m/%Y")
-min = clima_cidade[0]['min']
-max = clima_cidade[0]['max']
-
-# Apresentaçãop formatada
-print(f'\nA data atual é: {data_}')
-print(f'\nA descrição é: {descricao}')
-print(f'\nA temperatura mínima é : {min}°C')
-print(f'\nA temperatura máxima é : {max}°C')
-print('==='*20)
-
+    except Exception as e:
+        st.error('Ocorreu um erro ao buscar a previsão do tempo. Verifique o nome da cidade para tentar de novo.')
+        st.error(f'Detalhes do erro: {str(e)}')
