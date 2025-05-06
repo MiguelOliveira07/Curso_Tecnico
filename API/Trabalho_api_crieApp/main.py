@@ -5,7 +5,7 @@ from translate import Translator
 
 # Configuração da página
 st.set_page_config(page_title="Mundo em Dados", page_icon="🌍", layout="wide")
-st.text('Esse site é programado para te ajudar a descobrir um pouco mais sobre diversos paises!')
+st.text('Esse site é programado para te ajudar a descobrir um pouco mais sobre diversos países!')
 
 # Campos relevantes
 campos_relevantes = {
@@ -40,6 +40,16 @@ def obter_dados_pais(nome_ingles):
     else:
         return None
 
+# Obter URL da bandeira usando a REST Countries API
+def obter_bandeira_url(nome_ingles):
+    try:
+        response = requests.get(f"https://restcountries.com/v3.1/name/{nome_ingles}")
+        if response.status_code == 200:
+            data = response.json()
+            return data[0]["flags"]["png"]  # ou "svg" se preferir vetorial
+    except Exception:
+        return None
+
 # Formatar valores numéricos
 def formatar_valor(valor):
     if isinstance(valor, (int, float)):
@@ -68,11 +78,18 @@ def main():
         if not pais_en:
             st.warning("Não foi possível traduzir o nome do país ou Verifique a ortografia. Tente Novamente.")
             return
-        
+
         st.write(f"Buscando informações sobre: **{pais_pt}**")
 
-        dados = obter_dados_pais(pais_en)
+        # Mostrar bandeira
+        url_bandeira = obter_bandeira_url(pais_en)
+        if url_bandeira:
+            st.image(url_bandeira, caption=f'Bandeira de {pais_pt}', width=200)
+        else:
+            st.info("Não foi possível carregar a bandeira.")
 
+        # Buscar e exibir dados
+        dados = obter_dados_pais(pais_en)
         if dados:
             dados_filtrados = filtrar_dados_relevantes(dados)
             exibir_tabela_dados(dados_filtrados)
@@ -82,5 +99,3 @@ def main():
 # Executa o app
 if __name__ == "__main__":
     main()
-
-
