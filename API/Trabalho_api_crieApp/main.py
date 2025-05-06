@@ -1,25 +1,86 @@
 import streamlit as st
 import requests
-import json
-import random
+import pandas as pd
 from translate import Translator
-from PIL import Image
-import io
 
 # Configuração da página
 st.set_page_config(page_title="Mundo em Dados", page_icon="🌍", layout="wide")
-st.text('Esse site é programado para te ajudar a esolher seu proximo pais de destino, curta suas férias')
+st.text('Esse site é programado para te ajudar a descobrir um pouco mais sobre diversos paises!')
 
-pais = st.text_input('Digit o pais desejado')
-url_base = 'https://api.api-ninjas.com/v1/country?name={}'.format(pais)
+# Campos relevantes
+campos_relevantes = {
+    "name": "Name",
+    "region": "Região",
+    "population": "População (Milhões)",
+    "capital": "Capital",
+    "currency": "Moeda",
+    "gdp": "PIB (USD)",
+    "gdp_per_capita": "PIB per capita (USD)",
+    "life_expectancy_male": "Expectativa de vida (homens)",
+    "life_expectancy_female": "Expectativa de vida (mulheres)",
+    "internet_users": "Usuários de internet (%)"
+}
 
-resposta_base = requests.get(url_base, headers={'X-Api-Key': 'OQ5ar98aOuopjjLystaDvw==ZulkwO88axNRWeOE'})
+# Função para traduzir o nome do país
+def traduzir_pais(nome_pt):
+    try:
+        translator = Translator(from_lang="pt", to_lang="en")
+        return translator.translate(nome_pt).strip()
+    except Exception:
+        return None
 
-informção_json = resposta_base.json()
+# Função para obter dados da API
+def obter_dados_pais(nome_ingles):
+    url = f'https://api.api-ninjas.com/v1/country?name={nome_ingles}'
+    response = requests.get(url, headers={'X-Api-Key': 'OQ5ar98aOuopjjLystaDvw==ZulkwO88axNRWeOE'})
+    
+    if response.status_code == 200:
+        dados = response.json()
+        return dados[0] if dados else None
+    else:
+        return None
 
-st.text(informção_json)
+# Formatar valores numéricos
+def formatar_valor(valor):
+    if isinstance(valor, (int, float)):
+        return f"{valor:,.3f}".replace(",", ".")
+    return valor
 
-if resposta_base.status_code == requests.codes.ok:
-    print(resposta_base.text)
-else:
-    print("Error:", resposta_base.status_code, resposta_base.text)
+# Filtrar e formatar dados relevantes
+def filtrar_dados_relevantes(dados_api):
+    return {
+        campos_relevantes[i]: formatar_valor(dados_api.get(i, "N/A"))
+        for i in campos_relevantes if i in dados_api
+    }
+
+# Exibir dados em formato de tabela
+def exibir_tabela_dados(dados_filtrados):
+    df = pd.DataFrame(dados_filtrados.items(), columns=["Dados", "Valores"])
+    st.table(df)
+
+# Interface principal
+def main():
+    pais_pt = st.text_input('Digite o nome do país:').strip().title()
+
+    if pais_pt:
+        pais_en = traduzir_pais(pais_pt)
+
+        if not pais_en:
+            st.warning("Não foi possível traduzir o nome do país ou Verifique a ortografia. Tente Novamente.")
+            return
+        
+        st.write(f"Buscando informações sobre: **{pais_pt}**")
+
+        dados = obter_dados_pais(pais_en)
+
+        if dados:
+            dados_filtrados = filtrar_dados_relevantes(dados)
+            exibir_tabela_dados(dados_filtrados)
+        else:
+            st.warning("País não encontrado na base de dados. Tente outro nome ou verifique a ortografia.")
+
+# Executa o app
+if __name__ == "__main__":
+    main()
+
+
