@@ -9,7 +9,7 @@ st.text('Esse site é programado para te ajudar a descobrir um pouco mais sobre 
 
 # Campos relevantes
 campos_relevantes = {
-    "name": "Name",
+    "name": "Nome",
     "region": "Região",
     "population": "População (Milhões)",
     "capital": "Capital",
@@ -32,7 +32,7 @@ def traduzir_pais(nome_pt):
 # Função para obter dados da API
 def obter_dados_pais(nome_ingles):
     url = f'https://api.api-ninjas.com/v1/country?name={nome_ingles}'
-    response = requests.get(url, headers={'X-Api-Key': 'OQ5ar98aOuopjjLystaDvw==ZulkwO88axNRWeOE'})
+    response = requests.get(url, headers={'X-Api-Key': st.secrets["API_KEY"]})
     
     if response.status_code == 200:
         dados = response.json()
@@ -53,15 +53,26 @@ def obter_bandeira_url(nome_ingles):
 # Formatar valores numéricos
 def formatar_valor(valor):
     if isinstance(valor, (int, float)):
-        return f"{valor:,.3f}".replace(",", ".")
+        return f"{valor:,.1f}".replace(",", ".")
     return valor
 
 # Filtrar e formatar dados relevantes
 def filtrar_dados_relevantes(dados_api):
-    return {
-        campos_relevantes[i]: formatar_valor(dados_api.get(i, "N/A"))
-        for i in campos_relevantes if i in dados_api
-    }
+    dados_filtrados = {}
+    for chave, rotulo in campos_relevantes.items():
+        valor = dados_api.get(chave, "N/A")
+        
+        if chave == "currency" and isinstance(valor, dict):
+            nome_moeda = valor.get("name", "")
+            codigo_moeda = valor.get("code", "")
+            valor_formatado = f"{nome_moeda} ({codigo_moeda})" if codigo_moeda else nome_moeda
+        else:
+            valor_formatado = formatar_valor(valor)
+
+        dados_filtrados[rotulo] = valor_formatado
+
+    return dados_filtrados
+
 
 # Exibir dados em formato de tabela
 def exibir_tabela_dados(dados_filtrados):
