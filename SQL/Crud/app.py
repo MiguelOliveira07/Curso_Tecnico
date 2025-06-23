@@ -1,4 +1,5 @@
 import sqlite3
+import validators
 from verificação_dados import validar_nome, validar_idade, validar_cpf
 
 def conectar():

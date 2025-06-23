@@ -1,3 +1,4 @@
+import validators
 class Verificação_dados:
     def __init__(self):
         pass
@@ -47,3 +48,11 @@ class Verificação_dados:
                     print("O cpf deve conter apenas números!")
             else:
                 print("O cpf não pode ficar em branco!")
+
+    def validar_email(self, mensagem='digite seu email: '):
+        while True:
+            email = input(mensagem).strip()
+            if validators.email(email):
+                return email
+            else:
+                print('Email inválido, Tente Novamente!')
