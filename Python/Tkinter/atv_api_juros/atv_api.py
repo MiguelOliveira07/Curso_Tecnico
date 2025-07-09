@@ -1,5 +1,7 @@
 from customtkinter import *
 import requests
+import toml
+
 
 set_appearance_mode('dark')
 
@@ -8,18 +10,35 @@ janela.geometry('300x300')
 janela.resizable(False, False)
 
 def pesquisar(pais):
+    token = toml.load("Python\\Tkinter\\atv_api_juros\\secrets.toml")
+    
     api_url = f'https://api.api-ninjas.com/v1/interestrate?country={pais}'
-    response = requests.get(api_url, headers={'X-Api-Key': 'Api-Key'})
+    response = requests.get(api_url, headers={'X-Api-Key': token['Api']['Api-Key']})
     if response.status_code == requests.codes.ok:
         return response.json()
     else:
-        return None
+        return print("Error:", response.status_code, response.text)
+    
+#     {
+#   "central_bank_rates": [
+#     {
+#       "central_bank": "Mexican Central Bank",
+#       "country": "Mexico",
+#       "rate_pct": 8,
+#       "last_updated": "06-26-2025"
+#     }
+#   ]
+#   }
+    
 
 def gerar_pesquisa():  
     pais = get_pais.get()
     endereco = pesquisar(pais=pais)
     if endereco:
-        resultado = f"{endereco.get('central_bank', '')}, {endereco.get('country', '')}, {endereco.get('rate_pct', '')}% - Última atualização: {endereco.get('last_update', '')}"
+        resultado = f"{endereco['central_bank_rates'][0]['central_bank']},\n{endereco['central_bank_rates'][0]['country']},\n{endereco['central_bank_rates'][0]['rate_pct']}%,\n{endereco['central_bank_rates'][0]['last_updated']}"
+        # resultado = endereco.get("central_bank_rates")0]['rate_pct']}% - Última atualização: {endereco.get('last_update', '')
+        # resultado = resultado[0]
+        # resultado = resultado.get('central_bank')
     else:
         resultado = "Erro ao obter dados. Verifique o nome do país ou a chave da API."
     res.configure(text=resultado)
