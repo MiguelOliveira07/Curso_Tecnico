@@ -12,8 +12,7 @@ res = Label(tela, text='Resultado')
 res.pack(pady=10)
 
 def calcular():
-    expr = display.get()
-    
+    expr = display.get()  
     calculo = eval(expr)
     calculo_text = str(calculo)
     

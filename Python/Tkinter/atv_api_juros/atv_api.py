@@ -19,6 +19,7 @@ def pesquisar(pais):
     else:
         return print("Error:", response.status_code, response.text)
     
+    
 #     {
 #   "central_bank_rates": [
 #     {

@@ -1,30 +1,27 @@
 from customtkinter import *
 import requests
 
-set_appearance_mode('dark')
-
 janela = CTk()
 janela.geometry('300x300')
-janela.resizable(False, False)
 
-def consultarAPI(cep):
+def consultar_api(cep):
     return requests.get(url=f'https://viacep.com.br/ws/{cep}/json/').json()
 
-def buscarCEP():
-    cep = sh_cep.get()
-    endereco = consultarAPI(cep=cep)
-    resultado = f"{endereco.get('logradouro', '')}, {endereco.get('bairro', '')}, {endereco.get('localidade', '')} - {endereco.get('uf', '')}"
-    res.configure(text=resultado)
+def buscar_cep():
+    cep = campo_cep.get()
+    endereco = consultar_api(cep=cep)
+    print(endereco)
+    campo_endereco.configure(text=endereco['logradouro'])
 
-CTkLabel(janela, text='Consulte o CEP:', font=('Arial', 20, 'bold'), text_color='white', width=250).place(x=25, y=15)
+CTkLabel(janela, text='Busca Endereço').pack()
 
-sh_cep = CTkEntry(janela, width=250, height=30, fg_color='white', text_color='black')
-sh_cep.place(x=25, y=50)
+campo_cep = CTkEntry(janela)
+campo_cep.pack(pady=20)
 
-btn = CTkButton(janela, text='Consultar', width=150, command=buscarCEP)
-btn.place(x=77, y=100)
+botao_consulta = CTkButton(janela, text='BUSCAR', command=buscar_cep)
+botao_consulta.pack(pady=20)
 
-res = CTkLabel(janela, text='RESULTADO', width=250, height=90, fg_color='white', text_color='black', wraplength=250, justify='left')
-res.place(x=25, y=135)
+campo_endereco = CTkLabel(janela, text='Endereço', font=('Arial', 25, 'bold'))
+campo_endereco.pack(pady=20)
 
 janela.mainloop()
