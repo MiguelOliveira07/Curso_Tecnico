@@ -10,7 +10,7 @@ janela.geometry('300x300')
 janela.resizable(False, False)
 
 def pesquisar(pais):
-    token = toml.load("Python\\Tkinter\\atv_api_juros\\secrets.toml")
+    token = toml.load("secrets.toml")
     
     api_url = f'https://api.api-ninjas.com/v1/interestrate?country={pais}'
     response = requests.get(api_url, headers={'X-Api-Key': token['Api']['Api-Key']})
@@ -46,7 +46,7 @@ def gerar_pesquisa():
 
 CTkLabel(janela, text='Verifique Juros: ', font=('Arial', 20, 'bold'), text_color='#fff', width=250).place(x=25, y=15)
 
-get_pais = CTkEntry(janela, width=250, height=30, fg_color='white', text_color='black')
+get_pais = CTkEntry(janela,placeholder_text='Digite um pais [EN]', width=250, height=30, fg_color='white', text_color='black')
 get_pais.place(x=25, y=50)
 
 btn = CTkButton(janela, text='Consultar', width=150, command=gerar_pesquisa)
@@ -56,3 +56,5 @@ res = CTkLabel(janela, text='RESULTADO', width=250, height=90, fg_color='white',
 res.place(x=25, y=135)
 
 janela.mainloop()
+
+
