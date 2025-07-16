@@ -1,6 +1,8 @@
 from customtkinter import *
 import requests
 import toml
+import os
+import sys
 
 
 set_appearance_mode('dark')
@@ -9,8 +11,17 @@ janela = CTk()
 janela.geometry('300x300')
 janela.resizable(False, False)
 
+
+def get_resource_path(filename):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, filename)
+    return os.path.join(os.path.abspath("."), filename)
+
+token_path = get_resource_path("secrets.toml")
+token = toml.load(token_path)
+
 def pesquisar(pais):
-    token = toml.load("secrets.toml")
+
     
     api_url = f'https://api.api-ninjas.com/v1/interestrate?country={pais}'
     response = requests.get(api_url, headers={'X-Api-Key': token['Api']['Api-Key']})
