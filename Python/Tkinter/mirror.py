@@ -1,21 +1,17 @@
 import tkinter as tk
-import tkinter.font as tkFont
-from tkinter import ttk
 
 app = tk.Tk()
+app.geometry("300x200")
 
-style = ttk.Style()
-style.configure("Meu_estilo.TLabel", font=("Arial", 20), foreground="white", background="white")
-pack_config = {"padx": 10, "pady": 5}
+texto_var = tk.StringVar()
 
-nome_label_static = tk.Label(master=app, text='Nome')
-nome_label_static.pack(**pack_config)
+entrada = tk.Entry(app, textvariable=texto_var, font=("Arial", 14))
+entrada.pack(pady=20)
 
-nome_var = tk.StringVar()
-nome_entry = tk.Entry(master=app, textvariable=nome_var)
-nome_entry.pack(**pack_config)
+label_espelho = tk.Label(app, font=("Arial", 14))
+label_espelho.pack()
 
-nome_label_dynamic = ttk.Label(master=app, textvariable=nome_var, style='Meu_estilo.TLabel')
-nome_label_dynamic.pack(**pack_config)
+texto_var.trace_add("write", lambda *args: label_espelho.config(text=texto_var.get()))
 
 app.mainloop()
+
