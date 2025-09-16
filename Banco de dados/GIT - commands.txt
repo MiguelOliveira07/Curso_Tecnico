@@ -1,0 +1,35 @@
+GIT - commands :
+
+git init
+
+git config --global user.name "Gabriel"
+git config --global user.email "gabriel_27duarte@outlook.com"
+
+git status
+
+git add arquivo.txt 
+
+git add .
+
+git commit -m "mensagem"
+
+git remote add origin https://github.com/usuario/repositorio.git
+
+git branch -M main renomear
+
+git pull --rebase origin main "mesclar"
+
+
+git push -u origin main
+
+git push origin outra_branch
+
+git push -f origin main forçar em cima, sobrescrever o remoto
+
+git checkout trocar_branch
+
+git branch nome_dabranch
+
+git checkout -b nova_branch  cria nova branch e muda mudar para ela
+
+git remote -v 
