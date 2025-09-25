@@ -1,52 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+    <title>Teste do Carrossel</title>
+    <link rel="stylesheet" href="style01.css">
 </head>
-
 <body>
-    <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img style="width:500px; height:500px;" src="imgs/carrosel1.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img style="width:500px; height:500px;" src="imgs/carrosel2.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img style="width:500px; height:500px;" src="imgs/carrosel3.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img style="width:500px; height:500px;" src="imgs/carrosel4.jpg" class="d-block w-100" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</body>
+    <section class="slider">
+            <div class="slides">
+                <input type="radio" name="radio-btn" id="radio1">
+                <input type="radio" name="radio-btn" id="radio2">
+                <input type="radio" name="radio-btn" id="radio3">
+                <input type="radio" name="radio-btn" id="radio4">
 
+                <div class="slide first">
+                    <img src="imgs/carrosel1.jpg" alt="Imagem 1">
+                </div>
+                <div class="slide second">
+                    <img src="imgs/carrosel2.jpg" alt="Imagem 1">
+                </div>
+                <div class="slide third">
+                    <img src="imgs/carrosel3.jpg" alt="Imagem 1">
+                </div>
+                <div class="slide fourth">
+                    <img src="imgs/carrosel4.jpg" alt="Imagem 1">
+                </div>
+                
+                <div class="navegation-auto">
+                    <div class="auto-btn1"></div>
+                    <div class="auto-btn2"></div>
+                    <div class="auto-btn3"></div>
+                    <div class="auto-btn4"></div>
+                </div>
+
+            </div>
+
+            <div class="manual-navegation">
+                <label for="radio1" class="manual-btn"></label>
+                <label for="radio2" class="manual-btn"></label>
+                <label for="radio3" class="manual-btn"></label>
+                <label for="radio4" class="manual-btn"></label>
+            </div>
+        </section>
+</body>
 </html>

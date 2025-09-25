@@ -1,0 +1,95 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Define o fundo para o caso do object-fit: contain deixar espaço */
+    background-color: azure;
+}
+
+.slider {
+    margin: 0 auto;
+    width: 800px;
+    height: 400px;
+    overflow: hidden; /* Esconde as imagens que estão fora da visualização */
+    position: relative; /* Necessário para posicionar a navegação manual/automática */
+}
+
+.slider .slides {
+    /* Largura total: 800px (largura do slider) x 4 (número de slides) = 3200px */
+    width: 3200px; 
+    height: 400px;
+    display: flex;
+    /* Transição para a animação do carrossel (deve ser controlada por JavaScript/CSS, mas ajuda na visualização) */
+    transition: all 0.5s ease; 
+}
+
+.slider .slides input {
+    display: none;
+}
+
+.slider .slide {
+    /* Cada slide deve ter a largura exata da janela de visualização (800px) */
+    width: 800px; 
+    position: relative;
+}
+
+.slider .slide img {
+    /* A imagem deve preencher 100% do slide (800px de largura x 400px de altura) */
+    width: 100%; 
+    height: 400px;
+    /* Usa 'contain' para mostrar a imagem inteira sem distorcer (pode deixar barras laterais) */
+    object-fit: contain; 
+}
+
+/* --- Navegação Manual --- */
+.slider .manual-navegation {
+    position: absolute;
+    width: 800px;
+    margin-top: -40px;
+    display: flex;
+    justify-content: center;
+}
+
+.slider .manual-btn {
+    border: 2px solid #fff;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 1s;
+    margin: 0 5px; /* Adiciona espaçamento entre os botões */
+}
+
+/* Estado ativo/hover dos botões de navegação */
+.slider .manual-btn:hover {
+    background-color: #fff;
+}
+
+/* Regras para fazer o carrossel funcionar com os radio buttons */
+
+/* Movimenta o conjunto de slides para a esquerda para mostrar o slide 2, 3 e 4 */
+#radio1:checked ~ .first { margin-left: 0; }
+#radio2:checked ~ .first { margin-left: -800px; }
+#radio3:checked ~ .first { margin-left: -1600px; }
+#radio4:checked ~ .first { margin-left: -2400px; }
+
+/* Adiciona estilo aos botões para indicar o slide ativo */
+#radio1:checked ~ .manual-navegation .manual-btn:nth-child(1),
+#radio2:checked ~ .manual-navegation .manual-btn:nth-child(2),
+#radio3:checked ~ .manual-navegation .manual-btn:nth-child(3),
+#radio4:checked ~ .manual-navegation .manual-btn:nth-child(4) {
+    background-color: #fff;
+}
+
+
+/* OBS: O bloco .navegation-auto, .auto-btn1, etc., não foi configurado neste código, mas 
+   é para a transição automática, que geralmente exige JavaScript. */
+
+/* Ajuste do primeiro slide para a transição */
+.slider .slides .slide.first {
+    margin-left: 0;
+    transition: margin-left 0.5s ease;
+}
