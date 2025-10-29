@@ -19,19 +19,24 @@ def ip_rede(meu_ip):
         f'Mácara da rede: {mascara_separada[1]}'
     ]
     
-    return endereco_rede.network_address
+    return endereco_rede.network_address, info
     
     
-def verificar_host(host,rede):
-    ip_rede(rede)
-    ip_host(host)
-    if ip.IPv4Address(host) in ip.IPv4Network(rede):
-       print('sim')
-    else:
-        print('Não')
-     
+def verificar_host(host, rede):
+    try:
+        rede_address, info = ip_rede(rede)
+        ip_host(host)
+        if ip.IPv4Address(host) in ip.IPv4Network(rede, strict=False):
+            info.append("O host pertence à rede: Sim")
+        else:
+            info.append("O host não pertence à rede: Não")
+        return info
+    except Exception as e:
+        return [f"Erro: {e}"]
+
     
 def main(page: ft.Page):
+    page.title =" Verificar Ip e Rede"
     def add_clicked(e):
         page.add(ft.Checkbox(label=new_host.value))
         meu_host = str(new_host.value)
