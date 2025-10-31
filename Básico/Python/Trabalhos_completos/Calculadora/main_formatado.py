@@ -13,7 +13,7 @@ def ip_rede(meu_ip):
     mascara_separada = mascara.split('/')
     
     info = [
-        f'O Endereço de Rede: {endereco_rede}',
+        f'O Endereço de rede: {endereco_rede}',
         f'Broadast: {endereco_rede.broadcast_address}',
         f'Ip da rede: {endereco_rede.network_address}',
         f'Mácara da rede: {mascara_separada[1]}'
