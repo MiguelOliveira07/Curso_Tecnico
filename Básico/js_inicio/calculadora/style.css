@@ -19,9 +19,10 @@ main {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    width: 320px;
+    width: 380px;
 }
 
+/* Input da calculadora */
 input[type="num"] {
     width: 100%;
     height: 50px;
@@ -33,14 +34,33 @@ input[type="num"] {
     text-align: right;
 }
 
+/* Contêiner que segura números e símbolos */
+#campo {
+    display: flex;
+    gap: 10px; /* espaço entre números e símbolos */
+    align-items: start; /* alinha o topo para não esticar */
+}
+
+/* Grade dos números 1-9 */
 #div_nums {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 8px; /* espaço menor entre os números */
+    flex: 3;
 }
 
+#botoes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* mesma estrutura que os números */
+    grid-auto-rows: 50px;
+    gap: 8px;
+    flex: 3;
+}
+
+
+/* Estilo geral dos botões */
 button {
+    width: 100%;
     height: 50px;
     font-size: 1.2rem;
     border: none;
@@ -54,6 +74,7 @@ button:hover {
     background-color: #d4d4d4;
 }
 
+/* Botão de ação abaixo da calculadora (ex.: "=" grande) */
 main > button {
     width: 100%;
     margin-top: 10px;
