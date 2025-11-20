@@ -7,12 +7,16 @@ Definir quais entidades o sistema terá (ex.: alunos, pacientes, produtos, veíc
     Consenssionáira.pdf
 
 Definir pelo menos 5 regras de negócio (ex.: "não vender sem estoque", "agendamento só em horários livres", etc.).
+    Venda ser presencial,
+    Pré-venda -> não obrigatória, tendo um valor mín. e um valor máx.
+    A venda ser atribuida a um vendedor, com dados e comissão
+    Compra de novos carros -> ser presencial, ser feita por um funcionário (com dados), ser do tipo Direta ou de repasse
 
 Entregar um documento simples com:
 
 Nome do sistema
 
-Descrição
+Descriçãos
 
 Entidades e atributos
 
